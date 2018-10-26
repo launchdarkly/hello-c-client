@@ -21,7 +21,7 @@ int main() {
 
     signal(SIGINT, on_signal);
 
-	int show_feature = LDBoolVariation(client, YOUR_FEATURE_KEY, false);
+    int show_feature = LDBoolVariation(client, YOUR_FEATURE_KEY, false);
 
     // disable output buffering
     setbuf(stdout, NULL);
