@@ -5,10 +5,11 @@
 
 #include "ldapi.h"
 
-#define YOUR_MOBILE_SDK_KEY "<your mobile key>"
-#define YOUR_FEATURE_KEY "<your feature key>"
+#define YOUR_MOBILE_SDK_KEY "<put your mobile sdk key here>"
+#define YOUR_FEATURE_KEY "<put your feature key here>"
 
 void on_signal(int signum) {
+   // tear down the client
    LDClientClose(LDClientGet());
    exit(signum);
 }
@@ -21,12 +22,12 @@ int main() {
 
     signal(SIGINT, on_signal);
 
-    int show_feature = LDBoolVariation(client, YOUR_FEATURE_KEY, false);
-
     // disable output buffering
     setbuf(stdout, NULL);
 
     while (1) {
+        int show_feature = LDBoolVariation(client, YOUR_FEATURE_KEY, false);
+
         if (show_feature) {
             // application code to show the feature
             printf("Showing your feature to %s\n", key);
