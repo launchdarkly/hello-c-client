@@ -11,7 +11,7 @@
 void on_signal(int signum) {
    // tear down the client
    LDClientClose(LDClientGet());
-   exit(signum);
+   exit(0);
 }
 
 int main() {
