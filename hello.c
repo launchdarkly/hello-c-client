@@ -8,6 +8,10 @@
 #define YOUR_MOBILE_SDK_KEY "<put your mobile sdk key here>"
 #define YOUR_FEATURE_KEY "<put your feature key here>"
 
+void logger(const char *s) {
+    printf("LD: %s", s);
+}
+
 void on_signal(int signum) {
    // tear down the client
    LDClientClose(LDClientGet());
@@ -15,10 +19,12 @@ void on_signal(int signum) {
 }
 
 int main() {
+    LDSetLogFunction(LD_LOG_INFO, logger);
     LDConfig *config = LDConfigNew(YOUR_MOBILE_SDK_KEY);
     char* key = "bob@example.com";
     LDUser *user = LDUserNew(key);
     LDClient *client = LDClientInit(config, user);
+    LDClientAwaitInitialized(client, 3000); // wait up to 3 seconds to connect
 
     signal(SIGINT, on_signal);
 
