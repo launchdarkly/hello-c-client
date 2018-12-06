@@ -18,13 +18,8 @@ void on_signal(int signum) {
     exit(0);
 }
 
-void on_status(int status) {
-    printf("LD Status: %d\n", status);
-}
-
 int main() {
     LDSetLogFunction(LD_LOG_INFO, logger);
-    LDSetClientStatusCallback(on_status);
 
     LDConfig *config = LDConfigNew(YOUR_MOBILE_SDK_KEY);
     char* key = "bob@example.com";
