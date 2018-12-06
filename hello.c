@@ -9,22 +9,23 @@
 #define YOUR_FEATURE_KEY "<put your feature key here>"
 
 void logger(const char *s) {
-    printf("LD: %s", s);
+    printf("LD: %s\n", s);
 }
 
 void on_signal(int signum) {
-   // tear down the client
-   LDClientClose(LDClientGet());
-   exit(0);
+    // tear down the client
+    LDClientClose(LDClientGet());
+    exit(0);
 }
 
 int main() {
     LDSetLogFunction(LD_LOG_INFO, logger);
+
     LDConfig *config = LDConfigNew(YOUR_MOBILE_SDK_KEY);
     char* key = "bob@example.com";
     LDUser *user = LDUserNew(key);
-    LDClient *client = LDClientInit(config, user);
-    LDClientAwaitInitialized(client, 3000); // wait up to 3 seconds to connect
+    // wait up to 3 seconds to connect
+    LDClient *client = LDClientInit(config, user, 3000);
 
     signal(SIGINT, on_signal);
 
