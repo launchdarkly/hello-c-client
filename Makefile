@@ -2,7 +2,13 @@ C_CLIENT_PATH = c-client
 C_CLIENT_REPO = https://github.com/launchdarkly/c-client
 CC = gcc -std=c99
 CFLAGS = -g -Wall -I$(C_CLIENT_PATH)
-LFLAGS = $(C_CLIENT_PATH)/libldapi.a -lcurl -lpthread -lm
+LFLAGS = $(C_CLIENT_PATH)/libldclientapi.a -lcurl -lpthread -lm
+
+UNAME := $(shell uname)
+
+ifeq ($(UNAME),Darwin)
+	LFLAGS += -framework CoreFoundation -framework IOKit
+endif
 
 TARGET = hello
 
