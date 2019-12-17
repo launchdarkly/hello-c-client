@@ -1,0 +1,81 @@
+version: 2.1
+
+orbs:
+   win: circleci/windows@1.0.0
+
+workflows:
+  version: 2
+  build_all:
+    jobs:
+      - build-test-linux
+      - build-test-osx
+      - build-test-windows
+
+jobs:
+  build-test-linux:
+    docker:
+      - image: ldcircleci/ld-c-sdk-ubuntu  # defined in sdks-ci-docker project
+    steps:
+      - checkout
+      - run:
+          name: Install curl
+          command: apt-get -y update && apt-get install -y curl
+      - run:
+          name: Fetch SDK
+          command: ./fetch-linux.sh
+      - run:
+          name: Build Hello
+          command: ./build-linux.sh
+      - run:
+          name: Run Hello
+          command: ./hello
+
+  build-test-osx:
+    macos:
+      xcode: "9.0"
+    steps:
+      - checkout
+      - run:
+          name: Fetch SDK
+          command: ./fetch-mac.sh
+      - run:
+          name: Build Hello
+          command: ./build-mac.sh
+      - run:
+          name: Run Hello
+          command: ./hello
+
+  build-test-windows:
+    executor:
+      name: win/vs2019
+      shell: powershell.exe
+    steps:
+      - checkout
+      - run:
+          name: Fetch SDK
+          command: .\fetch-windows.ps1
+      - run:
+          name: Build Hello
+          command: |
+              $vcBaseDir = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC"
+              $env:Path += ";$vcBaseDir\Common7\Tools"
+              # Using vcvarsall.bat from PowerShell is not straightforward - see
+              # https://stackoverflow.com/questions/41399692/running-a-build-script-after-calling-vcvarsall-bat-from-powershell
+              # Invokes a Cmd.exe shell script and updates the environment.
+              function Invoke-CmdScript {
+                  param(
+                    [String] $scriptName
+                  )
+                  $cmdLine = """$scriptName"" $args & set"
+                  & $Env:SystemRoot\system32\cmd.exe /c $cmdLine |
+                  select-string '^([^=]*)=(.*)$' | foreach-object {
+                    $varName = $_.Matches[0].Groups[1].Value
+                    $varValue = $_.Matches[0].Groups[2].Value
+                    set-item Env:$varName $varValue
+                  }
+              }
+              Invoke-CmdScript "$vcBaseDir\Auxiliary\Build\vcvarsall.bat" amd64
+              .\build-windows.ps1
+      - run:
+          name: Run Hello
+          command: .\hello
