@@ -31,4 +31,6 @@ int main() {
     }
 
     LDClientClose(client);
+
+    return 0;
 }

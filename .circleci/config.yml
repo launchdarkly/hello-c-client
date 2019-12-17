@@ -7,12 +7,12 @@ workflows:
   version: 2
   build_all:
     jobs:
-      - build-linux
-      - build-osx
-      - build-windows
+      - build-test-linux
+      - build-test-osx
+      - build-test-windows
 
 jobs:
-  build-linux:
+  build-test-linux:
     docker:
       - image: ldcircleci/ld-c-sdk-ubuntu  # defined in sdks-ci-docker project
     steps:
@@ -23,8 +23,11 @@ jobs:
       - run:
           name: Build Hello
           command: ./build-linux.sh
+      - run:
+          name: Run Hello
+          command: ./hello
 
-  build-osx:
+  build-test-osx:
     macos:
       xcode: "9.0"
     steps:
@@ -35,8 +38,11 @@ jobs:
       - run:
           name: Build Hello
           command: ./build-mac.sh
+      - run:
+          name: Run Hello
+          command: ./hello
 
-  build-windows:
+  build-test-windows:
     executor:
       name: win/vs2019
       shell: powershell.exe
@@ -69,3 +75,6 @@ jobs:
               }
               Invoke-CmdScript "$vcBaseDir\Auxiliary\Build\vcvarsall.bat" amd64
               .\build-windows.ps1
+      - run:
+        name: Run Hello
+        command: .\hello
