@@ -33,4 +33,4 @@ jobs:
           command: unzip artifacts/osx-clang-64bit-static.zip
       - run:
           name: Build Hello
-          command: ./build-osx.sh
+          command: ./build-mac.sh
