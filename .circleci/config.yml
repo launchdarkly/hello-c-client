@@ -11,7 +11,7 @@ workflows:
       - build-osx
 
 jobs:
-  build-test-linux:
+  build-linux:
     docker:
       - image: ldcircleci/ld-c-sdk-ubuntu  # defined in sdks-ci-docker project
     steps:
@@ -23,7 +23,7 @@ jobs:
           name: Build Hello
           command: ./build-linux.sh
 
-  build-test-osx:
+  build-osx:
     macos:
       xcode: "9.0"
     steps:
