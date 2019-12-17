@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           name: Fetch SDK
-          command: unzip artifacts/linux-gcc-64bit-static.zip
+          command: ./fetch-linux.sh
       - run:
           name: Build Hello
           command: ./build-linux.sh
@@ -34,7 +34,7 @@ jobs:
       - checkout
       - run:
           name: Fetch SDK
-          command: unzip artifacts/osx-clang-64bit-static.zip
+          command: ./fetch-mac.sh
       - run:
           name: Build Hello
           command: ./build-mac.sh
@@ -50,9 +50,7 @@ jobs:
       - checkout
       - run:
           name: Fetch SDK
-          command: |
-              $ProgressPreference = "SilentlyContinue"  # prevents console errors from CircleCI host
-              Expand-Archive -Path artifacts\windows-vs-64bit-dynamic.zip -DestinationPath .
+          command: .\fetch-windows.ps1
       - run:
           name: Build Hello
           command: |
