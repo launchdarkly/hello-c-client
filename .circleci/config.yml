@@ -49,4 +49,8 @@ jobs:
               Expand-Archive -Path artifacts\windows-vs-64bit-dynamic.zip -DestinationPath .
       - run:
           name: Build Hello
-          command: .\build-windows.ps1
+          command: |
+              $vcBaseDir = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC"
+              $env:Path += ";$vcBaseDir\Common7\Tools"
+              Invoke-CmdScript "$vcBaseDir\Auxiliary\Build\vcvarsall.bat" amd64
+              .\build-windows.ps1
