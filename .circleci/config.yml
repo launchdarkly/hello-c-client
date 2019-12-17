@@ -76,5 +76,5 @@ jobs:
               Invoke-CmdScript "$vcBaseDir\Auxiliary\Build\vcvarsall.bat" amd64
               .\build-windows.ps1
       - run:
-        name: Run Hello
-        command: .\hello
+          name: Run Hello
+          command: .\hello
