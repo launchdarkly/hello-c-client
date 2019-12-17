@@ -20,8 +20,6 @@ int main() {
     // wait up to 3 seconds to connect
     LDClient *client = LDClientInit(config, user, 3000);
 
-    signal(SIGINT, on_signal);
-
     int show_feature = LDBoolVariation(client, YOUR_FEATURE_KEY, false);
 
     if (show_feature) {
