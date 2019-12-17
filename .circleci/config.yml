@@ -44,7 +44,9 @@ jobs:
       - checkout
       - run:
           name: Fetch SDK
-          command: Expand-Archive -Path artifacts\windows-vs-64bit-dynamic.zip -DestinationPath .
+          command: |
+              $ProgressPreference = "SilentlyContinue"  # prevents console errors from CircleCI host
+              Expand-Archive -Path artifacts\windows-vs-64bit-dynamic.zip -DestinationPath .
       - run:
           name: Build Hello
           command: .\build-windows.ps1
