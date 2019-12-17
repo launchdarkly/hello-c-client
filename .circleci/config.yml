@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           name: Install curl
-          command: apt-get -y update && apt-get install -y install
+          command: apt-get -y update && apt-get install -y curl
       - run:
           name: Fetch SDK
           command: ./fetch-linux.sh
