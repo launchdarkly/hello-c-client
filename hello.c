@@ -15,10 +15,10 @@ int main() {
     LDSetLogFunction(LD_LOG_INFO, logger);
 
     LDConfig *config = LDConfigNew(YOUR_MOBILE_SDK_KEY);
-    char* key = "bob@example.com";
+    const char* key = "bob@example.com";
     LDUser *user = LDUserNew(key);
     // wait up to 3 seconds to connect
-    LDClient *client = LDClientInit(config, user, 3000);
+    LDClient_i *client = LDClientInit(config, user, 3000);
 
     int show_feature = LDBoolVariation(client, YOUR_FEATURE_KEY, false);
 
