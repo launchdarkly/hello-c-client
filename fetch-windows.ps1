@@ -3,6 +3,7 @@ $ProgressPreference = "SilentlyContinue"  # prevents console errors from CircleC
 $latestRelease = Invoke-WebRequest https://github.com/launchdarkly/c-client-sdk/releases/latest -Headers @{"Accept"="application/json"}
 $json = $latestRelease.Content | ConvertFrom-Json
 $latestVersion = $json.tag_name
-$url = "https://github.com/launchdarkly/c-client-sdk/releases/download/$latestVersion/windows-vs-64bit-static.zip"
+$url = "https://github.com/launchdarkly/c-client-sdk/releases/download/$latestVersion/windows-vs-64bit-dynamic.zip"
 Invoke-WebRequest -Uri $url -Outfile windows-vs-64bit-dynamic.zip
 Expand-Archive -Path windows-vs-64bit-dynamic.zip -DestinationPath .
+cp lib/ldclientapi.dll .
