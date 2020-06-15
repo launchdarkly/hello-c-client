@@ -1,1 +1,1 @@
-gcc -o hello hello.c libldclientapi.a -lcurl -lpthread -lm
+gcc -o hello hello.c lib/libldclientapi.a -I include -lcurl -lpthread -lm

@@ -1,1 +1,1 @@
-clang -o hello hello.c libldclientapi.a -lcurl -lpthread -lm -framework CoreFoundation -framework IOKit
+clang -o hello hello.c lib/libldclientapi.a -I include -lcurl -lpthread -lm -framework CoreFoundation -framework IOKit
