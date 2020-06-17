@@ -1,1 +1,1 @@
-cl /Fe: hello.exe hello.c /link ldclientapi.lib
+cl /I include /Fe: hello.exe hello.c /link lib/ldclientapi.lib

@@ -6,3 +6,4 @@ $latestVersion = $json.tag_name
 $url = "https://github.com/launchdarkly/c-client-sdk/releases/download/$latestVersion/windows-vs-64bit-dynamic.zip"
 Invoke-WebRequest -Uri $url -Outfile windows-vs-64bit-dynamic.zip
 Expand-Archive -Path windows-vs-64bit-dynamic.zip -DestinationPath .
+cp lib/ldclientapi.dll .
