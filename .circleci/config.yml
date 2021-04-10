@@ -45,7 +45,7 @@ jobs:
 
   build-test-osx:
     macos:
-      xcode: "9.0"
+      xcode: "9.4.1"
     steps:
       - checkout
       - run:
