@@ -3,28 +3,48 @@
 
 #include <launchdarkly/api.h>
 
-#define YOUR_MOBILE_SDK_KEY "<put your mobile sdk key here>"
-#define YOUR_FEATURE_KEY "<put your feature key here>"
+// Set MOBILE_KEY to your LaunchDarkly mobile key.
+#define MOBILE_KEY ""
 
-int main() {
-    LDConfigureGlobalLogger(LD_LOG_INFO, LDBasicLogger);
+// Set FEATURE_FLAG_KEY to the feature flag key you want to evaluate.
+#define FEATURE_FLAG_KEY "my-boolean-flag"
 
-    struct LDConfig *config = LDConfigNew(YOUR_MOBILE_SDK_KEY);
-    char* key = "bob@example.com";
-    struct LDUser *user = LDUserNew(key);
-    // wait up to 3 seconds to connect
-    struct LDClient *client = LDClientInit(config, user, 3000);
+#define INIT_TIMEOUT_MILLISECONDS 3000
 
-    LDBoolean show_feature = LDBoolVariation(client, YOUR_FEATURE_KEY, false);
-
-    if (show_feature) {
-        // application code to show the feature
-        printf("Showing your feature to %s\n", key);
-    } else {
-        // the code to run if the feature is off
-        printf("Not showing your feature to %s\n", key);
+int main() {    
+    if (!*MOBILE_KEY) {
+        printf("*** Please edit hello.c to set MOBILE_KEY to your LaunchDarkly mobile key first\n\n");
+        return 1;
     }
 
+    LDConfigureGlobalLogger(LD_LOG_INFO, LDBasicLogger);
+
+    struct LDConfig *config = LDConfigNew(MOBILE_KEY);
+
+    // Set up the user properties. This user should appear on your LaunchDarkly users dashboard
+    // soon after you run the demo.
+    struct LDUser *user = LDUserNew("example-user-key");
+    LDUserSetName(user, "Sandy");
+
+    struct LDClient *client = LDClientInit(config, user, INIT_TIMEOUT_MILLISECONDS);
+
+    if (LDClientIsInitialized(client)) {
+        printf("*** SDK successfully initialized!\n\n");
+    } else {
+        printf("*** SDK failed to initialize\n\n");
+        return 1;
+    }
+
+    LDBoolean flag_value = LDBoolVariation(client, FEATURE_FLAG_KEY, false);
+
+    printf("*** Feature flag '%s' is %s for this user\n\n",
+        FEATURE_FLAG_KEY, flag_value ? "true" : "false");
+
+    // Here we ensure that the SDK shuts down cleanly and has a chance to deliver analytics
+    // events to LaunchDarkly before the program exits. If analytics events are not delivered,
+    // the user properties and flag usage statistics will not appear on your dashboard. In a
+    // normal long-running application, the SDK would continue running and events would be
+    // delivered automatically in the background.
     LDClientClose(client);
 
     return 0;

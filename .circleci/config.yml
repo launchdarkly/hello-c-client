@@ -11,6 +11,10 @@ workflows:
       - build-test-osx
       - build-test-windows
 
+# This CI build ensures that the demo both compiles and works correctly. For the runtime test,
+# we use an SDK key and flag key that are passed in via the CircleCI context; the flag is
+# configured to return a true value.
+
 jobs:
   build-test-linux:
     docker:
@@ -23,12 +27,21 @@ jobs:
       - run:
           name: Fetch SDK
           command: ./fetch-linux.sh
+      - &step_update_keys_linux
+        run:
+          name: Insert mode key and flag key into demo code
+          command: |
+            sed -i.bak "s/#define MOBILE_KEY *\".*\"/#define SDK_KEY \"${LD_HELLO_WORLD_MOBILE_KEY}\"/" hello.c
+            sed -i.bak "s/#define FEATURE_FLAG_KEY *\".*\"/#define FEATURE_FLAG_KEY \"${LD_HELLO_WORLD_FLAG_KEY_WITH_TRUE_VALUE}\"/" main.go
       - run:
           name: Build Hello
           command: ./build-linux.sh
-      - run:
+      - &step_run_demo_linux
+        run:
           name: Run Hello
-          command: ./hello
+          command: |
+            ./hello | tee output.txt
+            grep "is true for this user" output.txt || (echo "Flag did not evaluate to expected true value" && exit 1)
 
   build-test-osx:
     macos:
@@ -38,12 +51,11 @@ jobs:
       - run:
           name: Fetch SDK
           command: ./fetch-mac.sh
+      - *step_update_keys_linux
       - run:
           name: Build Hello
           command: ./build-mac.sh
-      - run:
-          name: Run Hello
-          command: ./hello
+      - *step_run_demo_linux
 
   build-test-windows:
     executor:
@@ -54,6 +66,13 @@ jobs:
       - run:
           name: Fetch SDK
           command: .\fetch-windows.ps1
+      - run:
+          name: Insert mobile key and flag key into demo code
+          command: |
+            ((get-content -path hello.c) `
+              -replace "#define MOBILE_KEY `"`"","#define MOBILE_KEY `"${env:LD_HELLO_WORLD_MOBILE_KEY}`"") `
+              -replace "#define FEATURE_FLAG_KEY `"my-boolean-flag`"","#define FEATURE_FLAG_KEY `"${env:LD_HELLO_WORLD_FLAG_KEY_WITH_TRUE_VALUE}`"") `
+              | set-content -path hello.c
       - run:
           name: Build Hello
           command: |
@@ -78,4 +97,10 @@ jobs:
               .\build-windows.ps1
       - run:
           name: Run Hello
-          command: .\hello
+          command: |
+            .\hello | tee-object -variable output
+            if ( $output -notmatch "is true for this user" )
+            {
+              write-output "Flag did not evaluate to expected true value"
+              exit 1
+            }
