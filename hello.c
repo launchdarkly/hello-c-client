@@ -18,16 +18,20 @@ int main() {
         return 1;
     }
 
+    struct LDConfig *config;
+    struct LDClient *client;
+    struct LDUser *user;
+
     LDConfigureGlobalLogger(LD_LOG_INFO, LDBasicLogger);
 
-    struct LDConfig *config = LDConfigNew(MOBILE_KEY);
+    config = LDConfigNew(MOBILE_KEY);
 
     // Set up the user properties. This user should appear on your LaunchDarkly users dashboard
     // soon after you run the demo.
-    struct LDUser *user = LDUserNew("example-user-key");
+    user = LDUserNew("example-user-key");
     LDUserSetName(user, "Sandy");
 
-    struct LDClient *client = LDClientInit(config, user, INIT_TIMEOUT_MILLISECONDS);
+    client = LDClientInit(config, user, INIT_TIMEOUT_MILLISECONDS);
 
     if (LDClientIsInitialized(client)) {
         printf("*** SDK successfully initialized!\n\n");
