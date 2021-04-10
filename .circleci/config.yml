@@ -14,6 +14,21 @@ workflows:
       - build-test-windows:
           context: hello-world-demos
 
+  test-daily:
+    triggers:
+    - schedule:
+        cron: "0 6 * * *"
+        filters:
+          branches:
+            only: master
+    jobs:
+    - build-test-linux:
+        context: hello-world-demos
+    - build-test-osx:
+        context: hello-world-demos
+    - build-test-windows:
+        context: hello-world-demos
+
 # This CI build ensures that the demo both compiles and works correctly. For the runtime test,
 # we use an SDK key and flag key that are passed in via the CircleCI context; the flag is
 # configured to return a true value.
