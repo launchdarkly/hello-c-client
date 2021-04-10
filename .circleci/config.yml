@@ -102,7 +102,7 @@ jobs:
           name: Run Hello
           command: |
             .\hello | tee-object -variable output
-            if ( $output -notmatch "is true for this user" )
+            if ( "$output" -notlike "*is true for this user*" )
             {
               write-output "Flag did not evaluate to expected true value"
               exit 1
