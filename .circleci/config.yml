@@ -32,7 +32,7 @@ jobs:
           name: Insert mode key and flag key into demo code
           command: |
             sed -i.bak "s/#define MOBILE_KEY *\".*\"/#define SDK_KEY \"${LD_HELLO_WORLD_MOBILE_KEY}\"/" hello.c
-            sed -i.bak "s/#define FEATURE_FLAG_KEY *\".*\"/#define FEATURE_FLAG_KEY \"${LD_HELLO_WORLD_FLAG_KEY_WITH_TRUE_VALUE}\"/" main.go
+            sed -i.bak "s/#define FEATURE_FLAG_KEY *\".*\"/#define FEATURE_FLAG_KEY \"${LD_HELLO_WORLD_FLAG_KEY_WITH_TRUE_VALUE}\"/" hello.c
       - run:
           name: Build Hello
           command: ./build-linux.sh
@@ -70,8 +70,8 @@ jobs:
           name: Insert mobile key and flag key into demo code
           command: |
             ((get-content -path hello.c) `
-              -replace "#define MOBILE_KEY `"`"","#define MOBILE_KEY `"${env:LD_HELLO_WORLD_MOBILE_KEY}`"") `
-              -replace "#define FEATURE_FLAG_KEY `"my-boolean-flag`"","#define FEATURE_FLAG_KEY `"${env:LD_HELLO_WORLD_FLAG_KEY_WITH_TRUE_VALUE}`"") `
+              -replace "#define MOBILE_KEY `"`"","#define MOBILE_KEY `"${env:LD_HELLO_WORLD_MOBILE_KEY}`"" `
+              -replace "#define FEATURE_FLAG_KEY `"my-boolean-flag`"","#define FEATURE_FLAG_KEY `"${env:LD_HELLO_WORLD_FLAG_KEY_WITH_TRUE_VALUE}`"" `
               | set-content -path hello.c
       - run:
           name: Build Hello
