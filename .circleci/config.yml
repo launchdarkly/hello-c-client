@@ -7,9 +7,12 @@ workflows:
   version: 2
   build_all:
     jobs:
-      - build-test-linux
-      - build-test-osx
-      - build-test-windows
+      - build-test-linux:
+          context: hello-world-demos
+      - build-test-osx:
+          context: hello-world-demos
+      - build-test-windows:
+          context: hello-world-demos
 
 # This CI build ensures that the demo both compiles and works correctly. For the runtime test,
 # we use an SDK key and flag key that are passed in via the CircleCI context; the flag is
