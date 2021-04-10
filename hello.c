@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <launchdarkly/api.h>
 
@@ -12,7 +13,7 @@
 #define INIT_TIMEOUT_MILLISECONDS 3000
 
 int main() {    
-    if (!*MOBILE_KEY) {
+    if (!strlen(MOBILE_KEY)) {
         printf("*** Please edit hello.c to set MOBILE_KEY to your LaunchDarkly mobile key first\n\n");
         return 1;
     }
