@@ -69,7 +69,7 @@ jobs:
       - run:
           name: Insert mobile key and flag key into demo code
           command: |
-            ((get-content -path hello.c) `
+            (get-content -path hello.c) `
               -replace "#define MOBILE_KEY `"`"","#define MOBILE_KEY `"${env:LD_HELLO_WORLD_MOBILE_KEY}`"" `
               -replace "#define FEATURE_FLAG_KEY `"my-boolean-flag`"","#define FEATURE_FLAG_KEY `"${env:LD_HELLO_WORLD_FLAG_KEY_WITH_TRUE_VALUE}`"" `
               | set-content -path hello.c
