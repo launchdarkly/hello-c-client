@@ -1,3 +1,6 @@
 hello
 *.dSYM/
 /c-client/
+include
+lib
+*.zip
