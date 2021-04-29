@@ -1,10 +1,10 @@
-# LaunchDarkly Sample C Server-Side Application 
+# LaunchDarkly Sample C Client-Side Application
 
 We've built a simple console application that demonstrates how LaunchDarkly's SDK works.
 
- Below, you'll find the basic build procedure, but for more comprehensive instructions, you can visit your [Quickstart page](https://app.launchdarkly.com/quickstart#/) or the [Client-Side C/C++ SDK reference guide](https://docs.launchdarkly.com/sdk/client-side/c-c--).
+Below, you'll find the basic build procedure, but for more comprehensive instructions, you can visit your [Quickstart page](https://app.launchdarkly.com/quickstart#/) or the [Client-Side C/C++ SDK reference guide](https://docs.launchdarkly.com/sdk/client-side/c-c--).
 
-## Build instructions 
+## Build instructions
 
 1. Download the latest SDK for your platform with `fetch-linux.sh`, `fetch-mac.sh`, or `fetch-windows.ps1`.
 
