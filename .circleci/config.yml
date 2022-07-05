@@ -63,7 +63,7 @@ jobs:
 
   build-test-osx:
     macos:
-      xcode: "12.4.0"
+      xcode: "12.5.1"
     steps:
       - checkout
       - run:
