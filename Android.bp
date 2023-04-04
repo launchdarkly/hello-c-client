@@ -13,3 +13,20 @@ cc_binary {
         "libcurl",
     ],
 }
+
+cc_binary {
+    name: "hellocpp-launchdarkly",
+
+    srcs: [
+        "hello.cpp",
+    ],
+
+    static_libs: [
+        "libldclientapi",
+        "libldclientapicpp",
+    ],
+
+    shared_libs: [
+        "libcurl",
+    ],
+}
