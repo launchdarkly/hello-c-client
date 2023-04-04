@@ -8,4 +8,8 @@ cc_binary {
     static_libs: [
         "libldclientapi",
     ],
+
+    shared_libs: [
+        "libcurl",
+    ],
 }
