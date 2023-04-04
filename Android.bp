@@ -1,0 +1,11 @@
+cc_binary {
+    name: "hello-launchdarkly",
+
+    srcs: [
+        "hello.c",
+    ],
+
+    static_libs: [
+        "libldclientapi",
+    ],
+}
