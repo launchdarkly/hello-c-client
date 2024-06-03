@@ -1,3 +1,9 @@
+# ⚠️ Important note
+
+This c-client-sdk has been superseded by the [C++ Client SDK with C bindings](https://github.com/launchdarkly/cpp-sdks/tree/main/libs/client-sdk).
+
+Please use the [examples](https://github.com/launchdarkly/cpp-sdks/tree/main/examples) provided with the new SDK.
+
 # LaunchDarkly Sample C Client-Side Application
 
 We've built a simple console application that demonstrates how LaunchDarkly's SDK works.
