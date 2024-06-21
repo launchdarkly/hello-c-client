@@ -1,0 +1,32 @@
+cc_binary {
+    name: "hello-launchdarkly",
+
+    srcs: [
+        "hello.c",
+    ],
+
+    static_libs: [
+        "libldclientapi",
+    ],
+
+    shared_libs: [
+        "libcurl",
+    ],
+}
+
+cc_binary {
+    name: "hellocpp-launchdarkly",
+
+    srcs: [
+        "hello.cpp",
+    ],
+
+    static_libs: [
+        "libldclientapi",
+        "libldclientapicpp",
+    ],
+
+    shared_libs: [
+        "libcurl",
+    ],
+}

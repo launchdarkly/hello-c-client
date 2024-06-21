@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <launchdarkly/api.h>
+#include <launchdarkly/api.hpp>
 
 // Set MOBILE_KEY to your LaunchDarkly mobile key.
 #define MOBILE_KEY ""
@@ -22,13 +22,13 @@ int main(int argc, const char* argv[]) {
 
 
     if (!strlen(mobile_key)) {
-        printf("*** Please edit hello.c to set MOBILE_KEY to your LaunchDarkly mobile key first or pass it as the first argument\n\n");
+        printf("*** Please edit hello.cpp to set MOBILE_KEY to your LaunchDarkly mobile key first or pass it as the first argument\n\n");
         return 1;
     }
 
-    struct LDConfig *config;
-    struct LDClient *client;
-    struct LDUser *user;
+    LDConfig *config;
+    LDClientCPP *client;
+    LDUser *user;
 
     LDConfigureGlobalLogger(LD_LOG_INFO, LDBasicLogger);
 
@@ -39,16 +39,16 @@ int main(int argc, const char* argv[]) {
     user = LDUserNew(user_key);
     LDUserSetName(user, user_name);
 
-    client = LDClientInit(config, user, INIT_TIMEOUT_MILLISECONDS);
+    client = LDClientCPP::Init(config, user, INIT_TIMEOUT_MILLISECONDS);
 
-    if (LDClientIsInitialized(client)) {
+    if(client->isInitialized()) {
         printf("*** SDK successfully initialized!\n\n");
     } else {
         printf("*** SDK failed to initialize\n\n");
         return 1;
     }
 
-    LDBoolean flag_value = LDBoolVariation(client, feature_flag_key, false);
+    LDBoolean flag_value = client->boolVariation(feature_flag_key, false);
 
     printf("*** Feature flag '%s' is %s for this user\n\n",
         feature_flag_key, flag_value ? "true" : "false");
@@ -58,7 +58,7 @@ int main(int argc, const char* argv[]) {
     // the user properties and flag usage statistics will not appear on your dashboard. In a
     // normal long-running application, the SDK would continue running and events would be
     // delivered automatically in the background.
-    LDClientClose(client);
+    client->close();
 
     return 0;
 }
